@@ -8,12 +8,23 @@ const React = {
   createElement(tag: string, attributes: Record<string, any>, ...children: MyElement[]): MyElement {
     return {
       tag,
-      attributes,
+      attributes: attributes ?? {},
       children
     }
   }
 }
 
-const element = <div class="foo">hogehoge</div>
+function render(element: MyElement) {
+  if (typeof element === 'string') {
+    return element;
+  }
+  return `<${element.tag}>${element.children.map(render).join('')}</${element.tag}>`;
+}
 
-console.log(element);
+const html = render(
+  <div>
+    <h1>Hello World</h1>
+    <p>This is a paragraph</p>
+  </div>
+);
+console.log(html);
