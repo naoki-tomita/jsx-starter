@@ -14,16 +14,20 @@ const React = {
   }
 }
 
+function attributesToString(attributes: Record<string, any>) {
+  return Object.entries(attributes).map(([key, value]) => ` ${key}="${value}"`).join('');
+}
+
 function render(element: MyElement) {
   if (typeof element === 'string') {
     return element;
   }
-  return `<${element.tag}>${element.children.map(render).join('')}</${element.tag}>`;
+  return `<${element.tag}${attributesToString(element.attributes)}>${element.children.map(render).join('')}</${element.tag}>`;
 }
 
 const html = render(
-  <div>
-    <h1>Hello World</h1>
+  <div class="foo bar">
+    <h1 data-testid="hoge">Hello World</h1>
     <p>This is a paragraph</p>
   </div>
 );
